@@ -10,11 +10,18 @@ export async function beerTimerWorkflow(
 ) {
   "use workflow";
 
+  console.log('[Workflow] Starting beer timer workflow for user:', userId);
+  console.log('[Workflow] Delay:', delayMs, 'ms (', delayMs / 60000, 'minutes)');
+  console.log('[Workflow] Target temp:', targetTemp, '°C');
+
   // Sleep until timer expires (no resources consumed)
+  console.log('[Workflow] Sleeping...');
   await sleep(`${delayMs}ms`);
+  console.log('[Workflow] Woke up, sending notification...');
 
   // Send notification when workflow resumes
   await sendBeerReadyNotification(userId, targetTemp);
+  console.log('[Workflow] Workflow completed for user:', userId);
 }
 
 async function sendBeerReadyNotification(userId: string, targetTemp: number) {

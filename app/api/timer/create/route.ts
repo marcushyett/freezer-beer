@@ -7,11 +7,15 @@ import { beerTimerWorkflow } from "@/workflows/beer-timer";
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('[Timer Create] Request received');
     const body = await request.json();
     const { userId, coolingParams } = body as {
       userId: string;
       coolingParams: CoolingParams;
     };
+
+    console.log('[Timer Create] User ID:', userId);
+    console.log('[Timer Create] Cooling params:', coolingParams);
 
     if (!userId) {
       return NextResponse.json(
@@ -23,6 +27,7 @@ export async function POST(request: NextRequest) {
     // Validate cooling parameters
     const validationError = validateCoolingParams(coolingParams);
     if (validationError) {
+      console.log('[Timer Create] Validation error:', validationError);
       return NextResponse.json(
         { error: validationError },
         { status: 400 }
@@ -31,6 +36,7 @@ export async function POST(request: NextRequest) {
 
     // Calculate cooling time in minutes
     const coolingMinutes = calculateCoolingTime(coolingParams);
+    console.log('[Timer Create] Calculated cooling time:', coolingMinutes, 'minutes');
 
     if (coolingMinutes === Infinity) {
       return NextResponse.json(
@@ -51,8 +57,15 @@ export async function POST(request: NextRequest) {
     const delayMs = coolingMinutes * 60 * 1000;
     const expiryTime = now + delayMs;
 
+    console.log('[Timer Create] Delay:', delayMs, 'ms');
+    console.log('[Timer Create] Workflow function type:', typeof beerTimerWorkflow);
+    console.log('[Timer Create] Workflow function name:', beerTimerWorkflow.name);
+    console.log('[Timer Create] Workflow function:', beerTimerWorkflow.toString().substring(0, 200));
+
     // Start workflow to send notification at expiry time
+    console.log('[Timer Create] Starting workflow...');
     const run = await start(beerTimerWorkflow, [userId, delayMs, coolingParams.targetTemp]);
+    console.log('[Timer Create] Workflow started successfully, runId:', run.runId);
 
     const timer: StoredTimer = {
       userId,
