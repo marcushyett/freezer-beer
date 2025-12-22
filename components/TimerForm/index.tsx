@@ -5,13 +5,14 @@ import { Button, Card, Space, Typography, message } from 'antd';
 import { ThunderboltOutlined } from '@ant-design/icons';
 import { VesselMaterial, CoolingLocation, AdvancedOptions, CoolingParams } from '@/types';
 import { DEFAULT_VALUES, AMBIENT_TEMPS } from '@/lib/constants';
-import { calculateCoolingTime, validateCoolingParams } from '@/lib/cooling-calculator';
+import { calculateCoolingTime, validateCoolingParams, projectTemperatureWithForecast, ForecastPoint, ProjectionPoint } from '@/lib/cooling-calculator';
 import TemperatureInput from './TemperatureInput';
 import VesselSelector from './VesselSelector';
 import VolumeInput from './VolumeInput';
 import LocationSelector from './LocationSelector';
 import TargetTempPresets from './TargetTempPresets';
 import AdvancedOptionsComponent from './AdvancedOptions';
+import OutsideCoolingGraph from '../OutsideCoolingGraph';
 
 const { Title, Text } = Typography;
 
@@ -37,6 +38,9 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
   const [loading, setLoading] = useState(false);
   const [calculatedTime, setCalculatedTime] = useState<number | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [forecastData, setForecastData] = useState<ForecastPoint[]>([]);
+  const [projectionData, setProjectionData] = useState<ProjectionPoint[]>([]);
+  const [loadingForecast, setLoadingForecast] = useState(false);
 
   // Get ambient temperature based on location
   const getAmbientTemp = (): number => {
@@ -87,6 +91,83 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
     setValidationError(null);
     setCalculatedTime(time);
   }, [currentTemp, vesselMaterial, volume, coolingLocation, targetTemp, advancedOptions, outsideTemp]);
+
+  // Fetch weather forecast when outside location is selected
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    const fetchForecast = async () => {
+      if (coolingLocation !== 'outside') {
+        setForecastData([]);
+        setProjectionData([]);
+        return;
+      }
+
+      // Need geolocation first
+      if (!navigator.geolocation) {
+        return;
+      }
+
+      setLoadingForecast(true);
+
+      try {
+        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000 });
+        });
+
+        const { latitude, longitude } = position.coords;
+
+        const response = await fetch(`/api/weather?lat=${latitude}&lon=${longitude}&forecast=true`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch forecast');
+        }
+
+        const data = await response.json();
+        setForecastData(data.forecast || []);
+      } catch (error) {
+        console.error('Error fetching forecast:', error);
+        message.error('Could not load weather forecast');
+      } finally {
+        setLoadingForecast(false);
+      }
+    };
+
+    // Fetch immediately
+    fetchForecast();
+
+    // Refresh every hour
+    if (coolingLocation === 'outside') {
+      intervalId = setInterval(fetchForecast, 60 * 60 * 1000); // 1 hour
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [coolingLocation]);
+
+  // Calculate temperature projection when forecast data changes
+  useEffect(() => {
+    if (coolingLocation !== 'outside' || forecastData.length === 0) {
+      setProjectionData([]);
+      return;
+    }
+
+    const projection = projectTemperatureWithForecast(
+      {
+        currentTemp,
+        volume,
+        vesselMaterial,
+        advancedOptions,
+      },
+      forecastData,
+      targetTemp
+    );
+
+    setProjectionData(projection);
+  }, [forecastData, currentTemp, volume, vesselMaterial, advancedOptions, targetTemp, coolingLocation]);
 
   const handleStartTimer = async () => {
     if (calculatedTime === null) {
@@ -158,6 +239,15 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
           value={advancedOptions}
           onChange={setAdvancedOptions}
         />
+
+        {/* Show temperature projection graph for outside cooling */}
+        {coolingLocation === 'outside' && projectionData.length > 0 && (
+          <OutsideCoolingGraph
+            projectionData={projectionData}
+            initialTemp={currentTemp}
+            targetTemp={targetTemp}
+          />
+        )}
 
         {validationError && (
           <div className="validation-error">

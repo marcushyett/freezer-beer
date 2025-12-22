@@ -166,6 +166,107 @@ export function calculateTemperatureAtTime(
 }
 
 /**
+ * Project beer temperature over time with changing ambient temperatures
+ * Used for outdoor cooling where temperature varies hour by hour
+ */
+export interface ForecastPoint {
+  time: number; // Unix timestamp in milliseconds
+  temperature: number; // Ambient temperature in °C
+}
+
+export interface ProjectionPoint {
+  time: number; // Unix timestamp in milliseconds
+  beerTemp: number; // Beer temperature in °C
+  ambientTemp: number; // Ambient temperature in °C
+  targetReached: boolean; // Whether target temperature was reached
+  freezingRisk: boolean; // Whether beer is at risk of freezing (< 1°C)
+}
+
+export function projectTemperatureWithForecast(
+  params: Omit<CoolingParams, 'ambientTemp' | 'targetTemp'>,
+  forecast: ForecastPoint[],
+  targetTemp: number
+): ProjectionPoint[] {
+  const {
+    currentTemp,
+    volume,
+    vesselMaterial,
+    advancedOptions,
+  } = params;
+
+  if (forecast.length === 0) {
+    return [];
+  }
+
+  // Get base heat transfer coefficient
+  let k = K_BASE[vesselMaterial];
+  k *= Math.pow(330 / volume, 0.33);
+
+  let materialBonus = 1.0;
+
+  // Apply advanced cooling options (though unlikely to be used for outdoor cooling)
+  if (advancedOptions.withCO2Extinguisher) {
+    k *= 12.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0;
+  } else if (advancedOptions.inSaltIceWater) {
+    k *= 6.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0;
+  } else if (advancedOptions.inIceWater) {
+    k *= 4.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0;
+  } else if (advancedOptions.inWater) {
+    k *= 2.5;
+    materialBonus = vesselMaterial === 'can' ? 1.3 : 1.0;
+  } else if (advancedOptions.inSnow) {
+    k *= 1.3;
+    materialBonus = vesselMaterial === 'can' ? 1.1 : 1.0;
+  }
+
+  k *= materialBonus;
+
+  const result: ProjectionPoint[] = [];
+  let beerTemp = currentTemp;
+  const startTime = forecast[0].time;
+
+  // Project temperature for each hour in the forecast
+  for (let i = 0; i < forecast.length; i++) {
+    const forecastPoint = forecast[i];
+    const ambientTemp = forecastPoint.temperature;
+
+    // Calculate time elapsed since start (in minutes)
+    const elapsedMinutes = (forecastPoint.time - startTime) / (1000 * 60);
+
+    // If this is not the first point, calculate new beer temp based on previous hour
+    if (i > 0) {
+      const prevAmbientTemp = forecast[i - 1].temperature;
+      const hourInMinutes = 60;
+
+      // Apply Newton's Law for this hour with the ambient temp from previous hour
+      beerTemp = prevAmbientTemp + (beerTemp - prevAmbientTemp) * Math.exp(-k * hourInMinutes);
+    }
+
+    const targetReached = beerTemp <= targetTemp;
+    const freezingRisk = beerTemp < 1;
+
+    result.push({
+      time: forecastPoint.time,
+      beerTemp: Math.round(beerTemp * 10) / 10,
+      ambientTemp,
+      targetReached,
+      freezingRisk,
+    });
+
+    // If we've reached target and are at risk of freezing, we can stop projecting further
+    if (targetReached && freezingRisk && i > 24) {
+      // Continue for at least 24 hours to show the trend
+      break;
+    }
+  }
+
+  return result;
+}
+
+/**
  * Validate cooling parameters and return error message if invalid
  */
 export function validateCoolingParams(params: CoolingParams): string | null {
