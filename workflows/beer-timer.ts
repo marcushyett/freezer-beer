@@ -1,4 +1,4 @@
-import { sleep } from "workflow";
+import { sleep, fetch } from "workflow";
 
 export async function beerTimerWorkflow(
   userId: string,
