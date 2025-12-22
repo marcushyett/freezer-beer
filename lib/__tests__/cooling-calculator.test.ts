@@ -291,6 +291,16 @@ describe('cooling-calculator', () => {
         expect(time).toBe(Infinity);
       });
 
+      it('should return Infinity when target equals ambient', () => {
+        const time = calculateCoolingTime({
+          ...baseParams,
+          currentTemp: 20,
+          ambientTemp: 5, // Fridge
+          targetTemp: 5, // Same as fridge - takes infinite time (asymptotic)
+        });
+        expect(time).toBe(Infinity);
+      });
+
       it('should handle custom duration override', () => {
         const customTime = calculateCoolingTime({
           ...baseParams,
@@ -500,18 +510,30 @@ describe('cooling-calculator', () => {
         ambientTemp: 6, // Fridge
         targetTemp: 0, // Slushy
       });
-      expect(error).toContain('Cannot cool below the environment temperature');
+      expect(error).toContain('Cannot cool to or below the environment temperature');
       expect(error).toContain('6°C');
     });
 
-    it('should allow target equal to ambient', () => {
+    it('should reject when target equals ambient', () => {
       const error = validateCoolingParams({
         ...baseParams,
         currentTemp: 20,
         ambientTemp: 2,
         targetTemp: 2,
       });
-      expect(error).toBeNull();
+      expect(error).toContain('Cannot cool to or below the environment temperature');
+      expect(error).toContain('2°C');
+    });
+
+    it('should reject fridge scenario: current 20°C, target 5°C, ambient 5°C', () => {
+      const error = validateCoolingParams({
+        ...baseParams,
+        currentTemp: 20,
+        ambientTemp: 5, // Fridge
+        targetTemp: 5,  // Same as fridge temp
+      });
+      expect(error).toContain('Cannot cool to or below the environment temperature');
+      expect(error).toContain('5°C');
     });
   });
 

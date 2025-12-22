@@ -45,8 +45,9 @@ export function calculateCoolingTime(params: CoolingParams): number {
     return 0;
   }
 
-  if (targetTemp < ambientTemp) {
-    // Target is below ambient (impossible to cool below ambient in that environment)
+  if (targetTemp <= ambientTemp) {
+    // Target is at or below ambient (impossible to cool below ambient in that environment)
+    // When target equals ambient, it takes infinite time to reach (asymptotic approach)
     // Return a very large number to indicate impossibility
     return Infinity;
   }
@@ -182,8 +183,8 @@ export function validateCoolingParams(params: CoolingParams): string | null {
     return 'Your beer is already cold enough! No cooling needed.';
   }
 
-  if (targetTemp < ambientTemp) {
-    return `Cannot cool below the environment temperature (${ambientTemp}°C)`;
+  if (targetTemp <= ambientTemp) {
+    return `Cannot cool to or below the environment temperature (${ambientTemp}°C)`;
   }
 
   return null; // No errors
