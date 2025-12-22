@@ -5,6 +5,15 @@ import { StoredTimer, StoredSubscription } from '@/types';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check for internal workflow auth
+    const authHeader = request.headers.get('x-workflow-auth');
+    const expectedAuth = process.env.WORKFLOW_INTERNAL_KEY || 'workflow-internal';
+
+    if (authHeader !== expectedAuth) {
+      console.error('[Push Send] Unauthorized request - missing or invalid auth header');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { userId, targetTemp } = await request.json();
 
     if (!userId) {

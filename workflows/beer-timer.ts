@@ -17,19 +17,30 @@ export async function beerTimerWorkflow(
   console.log('[Workflow] Woke up, sending notification...');
 
   // Call API route to send push notification (Node.js modules not allowed in workflows)
+  // Use VERCEL_URL which is available in Vercel deployments
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    : 'https://freezer-beer.vercel.app';
 
-  const response = await fetch(`${baseUrl}/api/push/send`, {
+  const url = `${baseUrl}/api/push/send`;
+  console.log('[Workflow] Calling notification API:', url);
+
+  const response = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-workflow-auth': process.env.WORKFLOW_INTERNAL_KEY || 'workflow-internal',
+    },
     body: JSON.stringify({ userId, targetTemp }),
   });
 
+  console.log('[Workflow] Response status:', response.status);
+
   if (!response.ok) {
+    const errorText = await response.text();
     console.error('[Workflow] Failed to send notification:', response.status, response.statusText);
-    throw new Error(`Failed to send notification: ${response.status}`);
+    console.error('[Workflow] Error response:', errorText);
+    throw new Error(`Failed to send notification: ${response.status} ${errorText}`);
   }
 
   const result = await response.json();
