@@ -7,8 +7,8 @@ export async function GET() {
     description: 'Calculate the perfect cooling time for your beer',
     start_url: '/',
     display: 'standalone',
-    background_color: '#141414',
-    theme_color: '#4A9EFF',
+    background_color: '#000000',
+    theme_color: '#000000',
     orientation: 'portrait',
     icons: [
       {

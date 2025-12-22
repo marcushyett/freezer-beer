@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, Typography, Button, Space, Progress, message } from 'antd';
-import { ClockCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Card, Typography, Button, Space, message } from 'antd';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 interface TimerDisplayProps {
   expiryTime: number;
@@ -70,13 +69,12 @@ export default function TimerDisplay({
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
 
+    const pad = (n: number) => String(n).padStart(2, '0');
+
     if (hours > 0) {
-      return `${hours}h ${minutes}m ${seconds}s`;
+      return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
     }
-    if (minutes > 0) {
-      return `${minutes}m ${seconds}s`;
-    }
-    return `${seconds}s`;
+    return `${pad(minutes)}:${pad(seconds)}`;
   };
 
   const progressPercent = totalTime > 0
@@ -87,71 +85,97 @@ export default function TimerDisplay({
 
   return (
     <Card
-      style={{ maxWidth: 600, width: '100%' }}
-      styles={{ body: { padding: 32 } }}
+      style={{
+        maxWidth: 600,
+        width: '100%',
+        background: 'transparent',
+        border: '1px solid #1a1a1a',
+      }}
+      styles={{ body: { padding: 48 } }}
     >
-      <Space direction="vertical" size="large" style={{ width: '100%' }} align="center">
-        <div style={{ textAlign: 'center' }}>
-          <ClockCircleOutlined
-            style={{
-              fontSize: 64,
-              color: isExpired ? '#52c41a' : '#4A9EFF',
-              marginBottom: 16,
-            }}
-          />
-          <Title level={2} style={{ margin: 0 }}>
-            {isExpired ? 'Beer is Ready!' : 'Cooling...'}
-          </Title>
-          <Text type="secondary">
-            Target: {targetTemp}°C
-          </Text>
+      <Space direction="vertical" size={32} style={{ width: '100%' }} align="center">
+        {/* Elegant countdown display */}
+        <div style={{
+          fontSize: '72px',
+          fontWeight: '300',
+          letterSpacing: '-0.02em',
+          lineHeight: '1',
+          color: '#ffffff',
+          fontVariantNumeric: 'tabular-nums',
+          textAlign: 'center',
+        }}>
+          {isExpired ? 'READY' : formatTime(timeRemaining)}
         </div>
 
-        <div style={{ width: '100%' }}>
-          <Progress
-            type="circle"
-            percent={Math.round(progressPercent)}
-            size={200}
-            format={() => (
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 32, fontWeight: 'bold', color: '#fff' }}>
-                  {formatTime(timeRemaining)}
-                </div>
-                <div style={{ fontSize: 14, color: '#999', marginTop: 4 }}>
-                  {isExpired ? 'Complete!' : 'remaining'}
-                </div>
-              </div>
-            )}
-            strokeColor={{
-              '0%': '#4A9EFF',
-              '100%': '#52c41a',
-            }}
-          />
+        {/* Subtle progress bar */}
+        <div style={{
+          width: '100%',
+          height: '1px',
+          background: '#1a1a1a',
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            height: '100%',
+            width: `${progressPercent}%`,
+            background: '#ffffff',
+            transition: 'width 1s linear',
+          }} />
         </div>
+
+        {/* Metadata */}
+        <Space direction="vertical" size={8} align="center" style={{ width: '100%' }}>
+          <Text style={{
+            fontSize: '12px',
+            color: '#666666',
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+          }}>
+            {isExpired ? 'Complete' : 'Time Remaining'}
+          </Text>
+          <Text style={{
+            fontSize: '14px',
+            color: '#888888',
+          }}>
+            Target {targetTemp}°C
+          </Text>
+        </Space>
 
         {!isExpired && (
-          <Text type="secondary" style={{ textAlign: 'center' }}>
-            You'll receive a notification when your beer is ready
-            <br />
-            (Keep this device connected to the internet)
+          <Text style={{
+            textAlign: 'center',
+            fontSize: '12px',
+            color: '#666666',
+            lineHeight: '1.6',
+          }}>
+            You'll receive a notification when ready
           </Text>
         )}
 
         {isExpired && (
-          <Text type="success" style={{ textAlign: 'center', fontSize: 16 }}>
-            Your beer has reached the perfect temperature!
-            <br />
-            Enjoy responsibly!
+          <Text style={{
+            textAlign: 'center',
+            fontSize: '14px',
+            color: '#ffffff',
+            lineHeight: '1.6',
+          }}>
+            Your beer has reached perfect temperature
           </Text>
         )}
 
+        {/* Cancel button */}
         <Button
-          type="default"
-          size="large"
-          block
-          icon={<CloseCircleOutlined />}
           onClick={handleCancel}
           loading={loading}
+          style={{
+            border: '1px solid #333333',
+            background: 'transparent',
+            color: '#ffffff',
+            marginTop: 16,
+          }}
         >
           Cancel Timer
         </Button>

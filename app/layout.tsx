@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Beer Cooling Timer',
   description: 'Calculate the perfect cooling time for your beer',
   manifest: '/manifest.json',
-  themeColor: '#4A9EFF',
+  themeColor: '#000000',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -36,15 +36,37 @@ export default function RootLayout({
           theme={{
             algorithm: theme.darkAlgorithm,
             token: {
-              colorPrimary: '#4A9EFF',
-              colorBgBase: '#141414',
-              colorBgContainer: '#1f1f1f',
-              colorBgElevated: '#2a2a2a',
-              colorBorder: '#3a3a3a',
-              borderRadius: 8,
-              fontSize: 16,
-              fontFamily:
-                "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+              colorPrimary: '#ffffff',
+              colorBgBase: '#000000',
+              colorBgContainer: '#0a0a0a',
+              colorBgElevated: '#141414',
+              colorBorder: '#1a1a1a',
+              colorText: '#ffffff',
+              colorTextSecondary: '#888888',
+              colorTextTertiary: '#666666',
+              borderRadius: 4,
+              fontSize: 14,
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              lineHeight: 1.6,
+            },
+            components: {
+              Button: {
+                defaultBorderColor: '#333333',
+                defaultColor: '#ffffff',
+                primaryColor: '#000000',
+              },
+              Progress: {
+                defaultColor: '#ffffff',
+              },
+              Slider: {
+                trackBg: '#1a1a1a',
+                trackHoverBg: '#222222',
+                handleColor: '#ffffff',
+                handleActiveColor: '#ffffff',
+                dotBorderColor: '#333333',
+                railBg: '#1a1a1a',
+                railHoverBg: '#1a1a1a',
+              },
             },
           }}
         >

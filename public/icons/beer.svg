@@ -1,0 +1,30 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Beer glass body -->
+  <path d="M180 100 L160 450 L352 450 L332 100 Z"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="8"
+        stroke-linejoin="round"/>
+
+  <!-- Glass rim -->
+  <ellipse cx="256" cy="100" rx="86" ry="20"
+           fill="none"
+           stroke="#ffffff"
+           stroke-width="8"/>
+
+  <!-- Beer foam top -->
+  <ellipse cx="256" cy="100" rx="86" ry="20"
+           fill="#ffffff"/>
+
+  <!-- Foam bubbles -->
+  <circle cx="220" cy="90" r="12" fill="#000000"/>
+  <circle cx="256" cy="85" r="14" fill="#000000"/>
+  <circle cx="292" cy="90" r="12" fill="#000000"/>
+
+  <!-- Handle -->
+  <path d="M352 150 Q390 150 390 200 Q390 250 352 250"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="8"
+        stroke-linecap="round"/>
+</svg>
