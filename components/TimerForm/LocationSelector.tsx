@@ -1,15 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Segmented, Typography, Space, Spin, message } from 'antd';
-import {
-  ThunderboltOutlined,
-  InboxOutlined,
-  CloudOutlined,
-} from '@ant-design/icons';
+import { Radio, Spin, message } from 'antd';
 import { CoolingLocation } from '@/types';
-
-const { Text } = Typography;
 
 interface LocationSelectorProps {
   value: CoolingLocation;
@@ -77,30 +70,35 @@ export default function LocationSelector({
   return (
     <div className="form-section">
       <div className="form-label">Cooling Location</div>
-      <Segmented
-        value={value}
-        onChange={handleChange}
-        size="middle"
-        block
-        options={[
-          {
-            label: 'Freezer -20°C',
-            value: 'freezer',
-          },
-          {
-            label: 'Fridge 6°C',
-            value: 'fridge',
-          },
-          {
-            label: loadingWeather
-              ? 'Outside...'
-              : outsideTemp !== null
-                ? `Outside ${outsideTemp}°C`
-                : 'Outside',
-            value: 'outside',
-          },
-        ]}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Radio.Group
+          value={value}
+          onChange={(e) => onChange(e.target.value as CoolingLocation)}
+          buttonStyle="solid"
+          style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}
+        >
+          <Radio.Button value="freezer" style={{ height: 'auto', padding: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span>Freezer</span>
+              <span style={{ fontWeight: 600 }}>-20°C</span>
+            </div>
+          </Radio.Button>
+          <Radio.Button value="fridge" style={{ height: 'auto', padding: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span>Fridge</span>
+              <span style={{ fontWeight: 600 }}>6°C</span>
+            </div>
+          </Radio.Button>
+          <Radio.Button value="outside" style={{ height: 'auto', padding: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span>{loadingWeather ? <Spin size="small" /> : 'Outside'}</span>
+              <span style={{ fontWeight: 600 }}>
+                {outsideTemp !== null ? `${outsideTemp}°C` : 'Auto'}
+              </span>
+            </div>
+          </Radio.Button>
+        </Radio.Group>
+      </div>
     </div>
   );
 }
