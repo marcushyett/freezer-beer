@@ -91,14 +91,14 @@ export default function TimerDisplay({
         background: 'transparent',
         border: '1px solid #1a1a1a',
       }}
-      styles={{ body: { padding: 48 } }}
+      styles={{ body: { padding: 24 } }}
     >
-      <Space direction="vertical" size={32} style={{ width: '100%' }} align="center">
+      <Space direction="vertical" size={16} style={{ width: '100%' }} align="center">
         {/* Elegant countdown display */}
         <div style={{
-          fontSize: '72px',
-          fontWeight: '300',
-          letterSpacing: '-0.02em',
+          fontSize: '64px',
+          fontWeight: '400',
+          letterSpacing: '-0.03em',
           lineHeight: '1',
           color: '#ffffff',
           fontVariantNumeric: 'tabular-nums',
@@ -127,17 +127,17 @@ export default function TimerDisplay({
         </div>
 
         {/* Metadata */}
-        <Space direction="vertical" size={8} align="center" style={{ width: '100%' }}>
+        <Space direction="vertical" size={4} align="center" style={{ width: '100%' }}>
           <Text style={{
-            fontSize: '12px',
+            fontSize: '10px',
             color: '#666666',
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
           }}>
-            {isExpired ? 'Complete' : 'Time Remaining'}
+            {isExpired ? 'Complete' : 'Remaining'}
           </Text>
           <Text style={{
-            fontSize: '14px',
+            fontSize: '11px',
             color: '#888888',
           }}>
             Target {targetTemp}°C
@@ -147,22 +147,22 @@ export default function TimerDisplay({
         {!isExpired && (
           <Text style={{
             textAlign: 'center',
-            fontSize: '12px',
+            fontSize: '10px',
             color: '#666666',
-            lineHeight: '1.6',
+            lineHeight: '1.4',
           }}>
-            You'll receive a notification when ready
+            Notification on completion
           </Text>
         )}
 
         {isExpired && (
           <Text style={{
             textAlign: 'center',
-            fontSize: '14px',
+            fontSize: '11px',
             color: '#ffffff',
-            lineHeight: '1.6',
+            lineHeight: '1.4',
           }}>
-            Your beer has reached perfect temperature
+            Perfect temperature reached
           </Text>
         )}
 
@@ -170,14 +170,15 @@ export default function TimerDisplay({
         <Button
           onClick={handleCancel}
           loading={loading}
+          size="small"
           style={{
             border: '1px solid #333333',
             background: 'transparent',
             color: '#ffffff',
-            marginTop: 16,
+            marginTop: 8,
           }}
         >
-          Cancel Timer
+          CANCEL
         </Button>
       </Space>
     </Card>

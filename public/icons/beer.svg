@@ -1,30 +1,38 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <!-- Beer glass body -->
-  <path d="M180 100 L160 450 L352 450 L332 100 Z"
+  <rect width="512" height="512" fill="#000000"/>
+
+  <!-- Beer glass body (pint glass shape) -->
+  <path d="M 200 140 L 180 420 L 332 420 L 312 140 Z"
         fill="none"
         stroke="#ffffff"
-        stroke-width="8"
-        stroke-linejoin="round"/>
+        stroke-width="12"
+        stroke-linejoin="miter"/>
 
-  <!-- Glass rim -->
-  <ellipse cx="256" cy="100" rx="86" ry="20"
-           fill="none"
-           stroke="#ffffff"
-           stroke-width="8"/>
+  <!-- Glass top rim -->
+  <line x1="200" y1="140" x2="312" y2="140"
+        stroke="#ffffff"
+        stroke-width="12"
+        stroke-linecap="round"/>
 
-  <!-- Beer foam top -->
-  <ellipse cx="256" cy="100" rx="86" ry="20"
+  <!-- Beer foam/head at top -->
+  <ellipse cx="256" cy="140" rx="56" ry="24"
            fill="#ffffff"/>
 
-  <!-- Foam bubbles -->
-  <circle cx="220" cy="90" r="12" fill="#000000"/>
-  <circle cx="256" cy="85" r="14" fill="#000000"/>
-  <circle cx="292" cy="90" r="12" fill="#000000"/>
+  <!-- Foam bubbles (smaller, more subtle) -->
+  <circle cx="235" cy="135" r="6" fill="#000000"/>
+  <circle cx="256" cy="132" r="7" fill="#000000"/>
+  <circle cx="277" cy="135" r="6" fill="#000000"/>
 
-  <!-- Handle -->
-  <path d="M352 150 Q390 150 390 200 Q390 250 352 250"
+  <!-- Glass handle -->
+  <path d="M 332 180 Q 365 180 365 220 Q 365 260 332 260"
         fill="none"
         stroke="#ffffff"
-        stroke-width="8"
+        stroke-width="10"
         stroke-linecap="round"/>
+
+  <!-- Beer level line inside glass -->
+  <line x1="190" y1="240" x2="322" y2="240"
+        stroke="#ffffff"
+        stroke-width="2"
+        opacity="0.3"/>
 </svg>

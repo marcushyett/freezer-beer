@@ -44,10 +44,10 @@ export default function RootLayout({
               colorText: '#ffffff',
               colorTextSecondary: '#888888',
               colorTextTertiary: '#666666',
-              borderRadius: 4,
-              fontSize: 14,
-              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-              lineHeight: 1.6,
+              borderRadius: 2,
+              fontSize: 12,
+              fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+              lineHeight: 1.4,
             },
             components: {
               Button: {

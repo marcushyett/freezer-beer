@@ -1,7 +1,6 @@
 'use client';
 
 import { Space, Typography, Button } from 'antd';
-import { FireOutlined } from '@ant-design/icons';
 import { TEMP_PRESETS } from '@/lib/constants';
 
 const { Text } = Typography;
@@ -17,28 +16,37 @@ export default function TargetTempPresets({
 }: TargetTempPresetsProps) {
   return (
     <div>
-      <Space align="center" style={{ marginBottom: 12 }}>
-        <FireOutlined style={{ color: '#4A9EFF' }} />
-        <Text strong>Target Temperature</Text>
-      </Space>
-      <Space wrap style={{ width: '100%' }}>
-        {TEMP_PRESETS.map((preset) => (
-          <Button
-            key={preset.value}
-            type={value === preset.value ? 'primary' : 'default'}
-            onClick={() => onChange(preset.value)}
-            size="large"
-          >
-            {preset.label}
-            <br />
-            <Text
-              type="secondary"
-              style={{ fontSize: 12 }}
+      <Text strong style={{ fontSize: '10px', textTransform: 'uppercase', color: '#888888', display: 'block', marginBottom: 8 }}>
+        Target Temperature
+      </Text>
+      <Space wrap size="small" style={{ width: '100%' }}>
+        {TEMP_PRESETS.map((preset) => {
+          const isSelected = value === preset.value;
+          return (
+            <Button
+              key={preset.value}
+              type={isSelected ? 'primary' : 'default'}
+              onClick={() => onChange(preset.value)}
+              size="small"
+              style={{
+                padding: '4px 12px',
+                height: 'auto',
+                fontSize: '11px',
+              }}
             >
-              {preset.value}°C
-            </Text>
-          </Button>
-        ))}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <span style={{ fontWeight: 500 }}>{preset.label}</span>
+                <span style={{
+                  fontSize: '10px',
+                  color: isSelected ? '#000000' : '#666666',
+                  opacity: isSelected ? 0.7 : 1
+                }}>
+                  {preset.value}°C
+                </span>
+              </div>
+            </Button>
+          );
+        })}
       </Space>
     </div>
   );

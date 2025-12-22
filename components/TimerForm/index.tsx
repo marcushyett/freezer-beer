@@ -118,16 +118,13 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
   return (
     <Card
       style={{ maxWidth: 600, width: '100%' }}
-      styles={{ body: { padding: 24 } }}
+      styles={{ body: { padding: 16 } }}
     >
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <div style={{ textAlign: 'center' }}>
-          <Title level={2} style={{ marginBottom: 8 }}>
-            Beer Cooling Timer
+      <Space direction="vertical" size="small" style={{ width: '100%' }}>
+        <div style={{ marginBottom: 8 }}>
+          <Title level={4} style={{ margin: 0, fontSize: '14px', fontWeight: 500 }}>
+            BEER COOLING TIMER
           </Title>
-          <Text type="secondary">
-            Calculate the perfect cooling time
-          </Text>
         </div>
 
         <TemperatureInput
@@ -155,32 +152,43 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
 
         <Button
           type="primary"
-          size="large"
+          size="middle"
           block
           onClick={handleCalculate}
-          icon={<ThunderboltOutlined />}
         >
-          Calculate Cooling Time
+          CALCULATE
         </Button>
 
         {calculatedTime !== null && (
-          <Card size="small" style={{ textAlign: 'center', background: '#2a2a2a' }}>
-            <Title level={3} style={{ margin: 0, color: '#4A9EFF' }}>
-              {calculatedTime} minutes
-            </Title>
-            <Text type="secondary">Estimated cooling time</Text>
-          </Card>
+          <div style={{
+            textAlign: 'center',
+            padding: '12px',
+            border: '1px solid #333333',
+            background: 'transparent'
+          }}>
+            <div style={{
+              fontSize: '24px',
+              fontWeight: 600,
+              color: '#ffffff',
+              marginBottom: '4px'
+            }}>
+              {calculatedTime}min
+            </div>
+            <Text style={{ fontSize: '10px', color: '#666666', textTransform: 'uppercase' }}>
+              Est. Cooling Time
+            </Text>
+          </div>
         )}
 
         {calculatedTime !== null && (
           <Button
             type="primary"
-            size="large"
+            size="middle"
             block
             loading={loading}
             onClick={handleStartTimer}
           >
-            Start Timer
+            START TIMER
           </Button>
         )}
       </Space>
