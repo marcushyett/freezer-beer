@@ -1,11 +1,10 @@
 'use client';
 
-import { Collapse, Switch, Space, Typography } from 'antd';
+import { Collapse, Switch, Space, Typography, InputNumber } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { AdvancedOptions } from '@/types';
 
 const { Text } = Typography;
-const { Panel } = Collapse;
 
 interface AdvancedOptionsProps {
   value: AdvancedOptions;
@@ -113,8 +112,37 @@ export default function AdvancedOptionsComponent({
                 />
               </div>
 
-              <Text type="secondary" style={{ fontSize: 12, display: 'block' }}>
-                Note: Only one advanced option can be active at a time
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: 12,
+                  borderTop: '1px solid #1a1a1a',
+                }}
+              >
+                <div>
+                  <Text>Custom Duration (Testing)</Text>
+                  <br />
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    Override calculated time
+                  </Text>
+                </div>
+                <InputNumber
+                  value={value.customDuration || 1}
+                  onChange={(val) => onChange({ ...value, customDuration: val || undefined })}
+                  min={0.1}
+                  max={120}
+                  step={0.5}
+                  placeholder="1"
+                  size="small"
+                  style={{ width: 80 }}
+                  suffix="min"
+                />
+              </div>
+
+              <Text type="secondary" style={{ fontSize: 10, display: 'block' }}>
+                Cooling multipliers only apply when custom duration is not set
               </Text>
             </Space>
           ),

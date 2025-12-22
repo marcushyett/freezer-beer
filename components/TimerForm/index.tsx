@@ -45,6 +45,13 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
   };
 
   const handleCalculate = () => {
+    // If custom duration is set, use that immediately
+    if (advancedOptions.customDuration && advancedOptions.customDuration > 0) {
+      setCalculatedTime(advancedOptions.customDuration);
+      message.success(`Using custom duration: ${advancedOptions.customDuration} min`);
+      return;
+    }
+
     const coolingParams: CoolingParams = {
       currentTemp,
       ambientTemp: getAmbientTemp(),
@@ -82,6 +89,7 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
     }
 
     setLoading(true);
+    message.loading('Starting timer...', 0); // Show loading message
 
     try {
       const coolingParams: CoolingParams = {
@@ -105,9 +113,11 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
         throw new Error(data.error || 'Failed to create timer');
       }
 
-      message.success(`Timer started for ${data.coolingMinutes} minutes!`);
+      message.destroy(); // Clear loading message
+      message.success(`Timer started! ${data.coolingMinutes} minutes`, 3);
       onTimerCreated(data.expiryTime, data.coolingMinutes);
     } catch (error) {
+      message.destroy(); // Clear loading message
       console.error('Error creating timer:', error);
       message.error(error instanceof Error ? error.message : 'Failed to start timer');
     } finally {

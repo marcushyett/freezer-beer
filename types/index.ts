@@ -7,6 +7,7 @@ export interface AdvancedOptions {
   inSnow: boolean;
   inWater: boolean;
   inIceWater: boolean;
+  customDuration?: number; // Custom timer duration in minutes (for testing)
 }
 
 export interface CoolingParams {
