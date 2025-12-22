@@ -94,6 +94,22 @@ export default function TimerDisplay({
       styles={{ body: { padding: 24 } }}
     >
       <Space direction="vertical" size={16} style={{ width: '100%' }} align="center">
+        {/* Spinning beer icon when timer is running */}
+        {!isExpired && (
+          <div className="spinning-beer">
+            <svg width="48" height="48" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+              <rect width="512" height="512" fill="transparent"/>
+              <path d="M 200 140 L 180 420 L 332 420 L 312 140 Z" fill="none" stroke="#ffffff" strokeWidth="12" strokeLinejoin="round"/>
+              <ellipse cx="256" cy="140" rx="56" ry="14" fill="none" stroke="#ffffff" strokeWidth="12"/>
+              <ellipse cx="256" cy="140" rx="56" ry="14" fill="#ffffff"/>
+              <circle cx="240" cy="134" r="8" fill="#000000"/>
+              <circle cx="256" cy="130" r="10" fill="#000000"/>
+              <circle cx="272" cy="134" r="8" fill="#000000"/>
+              <path d="M 332 180 Q 360 180 360 220 Q 360 260 332 260" fill="none" stroke="#ffffff" strokeWidth="12" strokeLinecap="round"/>
+            </svg>
+          </div>
+        )}
+
         {/* Elegant countdown display */}
         <div style={{
           fontSize: '64px',

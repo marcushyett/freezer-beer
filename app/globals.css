@@ -49,6 +49,15 @@ textarea,
   margin-bottom: 16px;
 }
 
+/* Validation error */
+.validation-error {
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #333333;
+  background: transparent;
+  margin: 16px 0;
+}
+
 /* Result display */
 .result-display {
   text-align: center;
@@ -64,6 +73,21 @@ textarea,
   color: #ffffff;
   margin-bottom: 4px;
   font-variant-numeric: tabular-nums;
+}
+
+/* Spinning beer icon */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinning-beer {
+  animation: spin 2s linear infinite;
+  display: inline-block;
 }
 
 a {

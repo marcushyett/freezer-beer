@@ -9,9 +9,9 @@ export const AMBIENT_TEMPS: AmbientTemps = {
 // Temperature presets for quick selection
 export const TEMP_PRESETS: TempPreset[] = [
   {
-    label: 'Rock Solid',
+    label: 'Slushy',
     value: 0,
-    description: 'Frozen solid (not recommended)',
+    description: 'Icy slushy consistency',
   },
   {
     label: 'Super Cold',

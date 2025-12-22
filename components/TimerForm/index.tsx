@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Card, Space, Typography, message } from 'antd';
 import { ThunderboltOutlined } from '@ant-design/icons';
 import { VesselMaterial, CoolingLocation, AdvancedOptions, CoolingParams } from '@/types';
@@ -36,6 +36,7 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
   const [outsideTemp, setOutsideTemp] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [calculatedTime, setCalculatedTime] = useState<number | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   // Get ambient temperature based on location
   const getAmbientTemp = (): number => {
@@ -44,11 +45,12 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
     return outsideTemp ?? 15; // Fallback to 15°C if outside temp not available
   };
 
-  const handleCalculate = () => {
+  // Auto-calculate on any value change
+  useEffect(() => {
     // If custom duration is set, use that immediately
     if (advancedOptions.customDuration && advancedOptions.customDuration > 0) {
       setCalculatedTime(advancedOptions.customDuration);
-      message.success(`Using custom duration: ${advancedOptions.customDuration} min`);
+      setValidationError(null);
       return;
     }
 
@@ -63,24 +65,28 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
 
     const error = validateCoolingParams(coolingParams);
     if (error) {
-      message.error(error);
+      setValidationError(error);
+      setCalculatedTime(null);
       return;
     }
 
     const time = calculateCoolingTime(coolingParams);
 
     if (time === Infinity) {
-      message.error('Cannot cool to target temperature in this environment');
+      setValidationError('Cannot cool to target temperature in this environment');
+      setCalculatedTime(null);
       return;
     }
 
     if (time === 0) {
-      message.info('Beer is already at target temperature');
+      setValidationError('Beer is already at target temperature');
+      setCalculatedTime(null);
       return;
     }
 
+    setValidationError(null);
     setCalculatedTime(time);
-  };
+  }, [currentTemp, vesselMaterial, volume, coolingLocation, targetTemp, advancedOptions, outsideTemp]);
 
   const handleStartTimer = async () => {
     if (calculatedTime === null) {
@@ -153,14 +159,11 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
           onChange={setAdvancedOptions}
         />
 
-        <Button
-          type="primary"
-          size="large"
-          block
-          onClick={handleCalculate}
-        >
-          CALCULATE
-        </Button>
+        {validationError && (
+          <div className="validation-error">
+            <Text type="secondary">{validationError}</Text>
+          </div>
+        )}
 
         {calculatedTime !== null && (
           <div className="result-display">
@@ -169,7 +172,7 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
           </div>
         )}
 
-        {calculatedTime !== null && (
+        {calculatedTime !== null && !validationError && (
           <Button
             type="primary"
             size="large"
