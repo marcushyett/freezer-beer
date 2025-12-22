@@ -17,9 +17,9 @@ export async function beerTimerWorkflow(
   console.log('[Workflow] Woke up, sending notification...');
 
   // Call API route to send push notification (Node.js modules not allowed in workflows)
-  // Use VERCEL_URL which is available in Vercel deployments
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
+  // Always use production URL to avoid Vercel Deployment Protection on previews
+  const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : 'https://freezer-beer.vercel.app';
 
   const url = `${baseUrl}/api/push/send`;
