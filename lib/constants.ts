@@ -3,7 +3,7 @@ import { TempPreset, AmbientTemps } from '@/types';
 // Default ambient temperatures for different cooling locations
 export const AMBIENT_TEMPS: AmbientTemps = {
   freezer: -20, // °C
-  fridge: 6,    // °C
+  fridge: 5,    // °C
 };
 
 // Temperature presets for quick selection
@@ -37,6 +37,11 @@ export const TEMP_PRESETS: TempPreset[] = [
     label: 'Cool',
     value: 5,
     description: 'Just cool enough',
+  },
+  {
+    label: 'Cool-ish',
+    value: 6,
+    description: 'Barely chilled',
   },
 ];
 

@@ -86,7 +86,7 @@ export default function LocationSelector({
           <Radio.Button value="fridge" style={{ height: 'auto', padding: '8px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>Fridge</span>
-              <span style={{ fontWeight: 600 }}>6°C</span>
+              <span style={{ fontWeight: 600 }}>5°C</span>
             </div>
           </Radio.Button>
           <Radio.Button value="outside" style={{ height: 'auto', padding: '8px' }}>
