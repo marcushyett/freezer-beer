@@ -54,12 +54,17 @@ export default function RootLayout({
                 defaultBorderColor: '#333333',
                 defaultColor: '#ffffff',
                 primaryColor: '#000000',
-                controlHeight: 44,
-                fontSize: 13,
+                controlHeight: 36,
+                fontSize: 11,
               },
               Segmented: {
                 itemSelectedBg: '#ffffff',
                 itemSelectedColor: '#000000',
+                controlHeight: 36,
+              },
+              Radio: {
+                buttonSolidCheckedBg: '#ffffff',
+                buttonSolidCheckedColor: '#000000',
               },
               Progress: {
                 defaultColor: '#ffffff',

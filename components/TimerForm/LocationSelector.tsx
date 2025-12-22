@@ -80,7 +80,7 @@ export default function LocationSelector({
       <Segmented
         value={value}
         onChange={handleChange}
-        size="large"
+        size="middle"
         block
         options={[
           {
