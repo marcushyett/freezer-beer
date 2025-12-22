@@ -7,6 +7,8 @@ export interface AdvancedOptions {
   inSnow: boolean;
   inWater: boolean;
   inIceWater: boolean;
+  inSaltIceWater: boolean;
+  withCO2Extinguisher: boolean;
   customDuration?: number; // Custom timer duration in minutes (for testing)
 }
 

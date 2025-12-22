@@ -51,6 +51,8 @@ export const DEFAULT_VALUES = {
     inSnow: false,
     inWater: false,
     inIceWater: false,
+    inSaltIceWater: false,
+    withCO2Extinguisher: false,
   },
 };
 

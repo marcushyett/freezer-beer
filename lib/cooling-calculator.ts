@@ -14,10 +14,11 @@ import { CoolingParams } from '@/types';
  */
 
 // Base heat transfer coefficients for different materials
-// These are empirically derived constants
+// Based on research: in ambient air, glass and aluminum cool at nearly identical rates
+// The difference only becomes significant in high heat-transfer environments (water/ice)
 const K_BASE = {
-  'can': 0.015,          // Aluminum - better thermal conductivity
-  'glass-bottle': 0.008, // Glass - slower cooling
+  'can': 0.012,          // Aluminum can
+  'glass-bottle': 0.011, // Glass bottle - only slightly slower in air
 } as const;
 
 /**
@@ -63,21 +64,41 @@ export function calculateCoolingTime(params: CoolingParams): number {
   k *= volumeScalingFactor;
 
   // Apply advanced cooling option multipliers
-  if (advancedOptions.inIceWater) {
+  let materialBonus = 1.0; // Extra speed for aluminum in water/ice
+
+  if (advancedOptions.withCO2Extinguisher) {
+    // CO2 fire extinguisher: extremely rapid cooling via sublimation
+    // CO2 sublimates at -78.5°C, instant surface contact
+    // WARNING: Can cause thermal shock and explode cans if not careful!
+    k *= 12.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0; // 40% faster for aluminum
+  } else if (advancedOptions.inSaltIceWater) {
+    // Salt ice water: salt lowers freezing point to ~-21°C
+    // Prevents ice from freezing solid, maintains better contact
+    // More effective than plain ice water
+    k *= 6.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0; // 40% faster for aluminum
+  } else if (advancedOptions.inIceWater) {
     // Ice water bath is extremely effective due to:
     // 1. High thermal conductivity of water vs air (25x)
     // 2. Latent heat of fusion from melting ice
     // 3. Convection currents in water
+    // Research: aluminum cools 30-50% faster than glass in ice bath
     k *= 4.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0; // 40% faster for aluminum
   } else if (advancedOptions.inWater) {
     // Cold water bath (without ice) is still very effective
     // Water's thermal conductivity is much higher than air
     k *= 2.5;
+    materialBonus = vesselMaterial === 'can' ? 1.3 : 1.0; // 30% faster for aluminum
   } else if (advancedOptions.inSnow) {
     // Snow provides better surface contact than still air
     // But not as effective as liquid water
     k *= 1.3;
+    materialBonus = vesselMaterial === 'can' ? 1.1 : 1.0; // 10% faster for aluminum
   }
+
+  k *= materialBonus;
 
   // Newton's Law rearranged to solve for time:
   // t = -ln((T_target - T_ambient) / (T_initial - T_ambient)) / k
@@ -116,13 +137,26 @@ export function calculateTemperatureAtTime(
   let k = K_BASE[vesselMaterial];
   k *= Math.pow(330 / volume, 0.33);
 
-  if (advancedOptions.inIceWater) {
+  let materialBonus = 1.0;
+
+  if (advancedOptions.withCO2Extinguisher) {
+    k *= 12.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0;
+  } else if (advancedOptions.inSaltIceWater) {
+    k *= 6.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0;
+  } else if (advancedOptions.inIceWater) {
     k *= 4.0;
+    materialBonus = vesselMaterial === 'can' ? 1.4 : 1.0;
   } else if (advancedOptions.inWater) {
     k *= 2.5;
+    materialBonus = vesselMaterial === 'can' ? 1.3 : 1.0;
   } else if (advancedOptions.inSnow) {
     k *= 1.3;
+    materialBonus = vesselMaterial === 'can' ? 1.1 : 1.0;
   }
+
+  k *= materialBonus;
 
   // Newton's Law: T(t) = T_ambient + (T_initial - T_ambient) * e^(-kt)
   const temperature = ambientTemp + (currentTemp - ambientTemp) * Math.exp(-k * timeMinutes);

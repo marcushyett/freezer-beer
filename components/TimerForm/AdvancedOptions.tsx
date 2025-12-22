@@ -16,12 +16,15 @@ export default function AdvancedOptionsComponent({
   onChange,
 }: AdvancedOptionsProps) {
   const handleChange = (key: keyof AdvancedOptions, checked: boolean) => {
-    // Only one can be active at a time
-    if (checked) {
+    // Only one cooling method can be active at a time
+    if (checked && key !== 'customDuration') {
       onChange({
         inSnow: key === 'inSnow',
         inWater: key === 'inWater',
         inIceWater: key === 'inIceWater',
+        inSaltIceWater: key === 'inSaltIceWater',
+        withCO2Extinguisher: key === 'withCO2Extinguisher',
+        customDuration: value.customDuration,
       });
     } else {
       onChange({
@@ -31,7 +34,8 @@ export default function AdvancedOptionsComponent({
     }
   };
 
-  const hasActiveOption = value.inSnow || value.inWater || value.inIceWater;
+  const hasActiveOption = value.inSnow || value.inWater || value.inIceWater ||
+                          value.inSaltIceWater || value.withCO2Extinguisher;
 
   return (
     <Collapse
@@ -109,6 +113,46 @@ export default function AdvancedOptionsComponent({
                 <Switch
                   checked={value.inIceWater}
                   onChange={(checked) => handleChange('inIceWater', checked)}
+                />
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <div>
+                  <Text>In Salt Ice Water</Text>
+                  <br />
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    6x faster cooling
+                  </Text>
+                </div>
+                <Switch
+                  checked={value.inSaltIceWater}
+                  onChange={(checked) => handleChange('inSaltIceWater', checked)}
+                />
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <div>
+                  <Text>CO2 Fire Extinguisher</Text>
+                  <br />
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    12x faster (DANGER!)
+                  </Text>
+                </div>
+                <Switch
+                  checked={value.withCO2Extinguisher}
+                  onChange={(checked) => handleChange('withCO2Extinguisher', checked)}
                 />
               </div>
 

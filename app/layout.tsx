@@ -45,9 +45,9 @@ export default function RootLayout({
               colorTextSecondary: '#888888',
               colorTextTertiary: '#666666',
               borderRadius: 2,
-              fontSize: 14,
+              fontSize: 12,
               fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-              lineHeight: 1.4,
+              lineHeight: 1.3,
             },
             components: {
               Button: {
