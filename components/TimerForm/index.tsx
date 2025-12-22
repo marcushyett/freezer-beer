@@ -126,16 +126,9 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
   };
 
   return (
-    <Card
-      style={{ maxWidth: 600, width: '100%' }}
-      styles={{ body: { padding: 16 } }}
-    >
-      <Space direction="vertical" size="small" style={{ width: '100%' }}>
-        <div style={{ marginBottom: 8 }}>
-          <Title level={4} style={{ margin: 0, fontSize: '14px', fontWeight: 500 }}>
-            BEER COOLING TIMER
-          </Title>
-        </div>
+    <Card>
+      <Space direction="vertical" style={{ width: '100%' }}>
+        <Title level={4}>BEER COOLING TIMER</Title>
 
         <TemperatureInput
           value={currentTemp}
@@ -162,7 +155,7 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
 
         <Button
           type="primary"
-          size="middle"
+          size="large"
           block
           onClick={handleCalculate}
         >
@@ -170,30 +163,16 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
         </Button>
 
         {calculatedTime !== null && (
-          <div style={{
-            textAlign: 'center',
-            padding: '12px',
-            border: '1px solid #333333',
-            background: 'transparent'
-          }}>
-            <div style={{
-              fontSize: '24px',
-              fontWeight: 600,
-              color: '#ffffff',
-              marginBottom: '4px'
-            }}>
-              {calculatedTime}min
-            </div>
-            <Text style={{ fontSize: '10px', color: '#666666', textTransform: 'uppercase' }}>
-              Est. Cooling Time
-            </Text>
+          <div className="result-display">
+            <div className="result-time">{calculatedTime}min</div>
+            <Text type="secondary">Est. Cooling Time</Text>
           </div>
         )}
 
         {calculatedTime !== null && (
           <Button
             type="primary"
-            size="middle"
+            size="large"
             block
             loading={loading}
             onClick={handleStartTimer}

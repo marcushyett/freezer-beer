@@ -1,10 +1,7 @@
 'use client';
 
-import { Slider, Typography, Space } from 'antd';
-import { DatabaseOutlined } from '@ant-design/icons';
+import { Slider } from 'antd';
 import { INPUT_RANGES } from '@/lib/constants';
-
-const { Text } = Typography;
 
 interface VolumeInputProps {
   value: number;
@@ -15,11 +12,8 @@ export default function VolumeInput({ value, onChange }: VolumeInputProps) {
   const { min, max, step } = INPUT_RANGES.volume;
 
   return (
-    <div>
-      <Space align="center" style={{ marginBottom: 8 }}>
-        <DatabaseOutlined style={{ color: '#4A9EFF' }} />
-        <Text strong>Volume</Text>
-      </Space>
+    <div className="form-section">
+      <div className="form-label">Volume</div>
       <Slider
         min={min}
         max={max}
@@ -36,9 +30,6 @@ export default function VolumeInput({ value, onChange }: VolumeInputProps) {
           formatter: (val) => `${val}ml`,
         }}
       />
-      <div style={{ textAlign: 'center', marginTop: 4 }}>
-        <Text type="secondary">{value}ml</Text>
-      </div>
     </div>
   );
 }

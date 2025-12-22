@@ -45,7 +45,7 @@ export default function RootLayout({
               colorTextSecondary: '#888888',
               colorTextTertiary: '#666666',
               borderRadius: 2,
-              fontSize: 12,
+              fontSize: 14,
               fontFamily: "'JetBrains Mono', 'Courier New', monospace",
               lineHeight: 1.4,
             },
@@ -54,6 +54,7 @@ export default function RootLayout({
                 defaultBorderColor: '#333333',
                 defaultColor: '#ffffff',
                 primaryColor: '#000000',
+                controlHeight: 40,
               },
               Progress: {
                 defaultColor: '#ffffff',

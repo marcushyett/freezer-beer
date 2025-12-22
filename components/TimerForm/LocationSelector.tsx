@@ -75,59 +75,36 @@ export default function LocationSelector({
   };
 
   return (
-    <div>
-      <Text strong style={{ fontSize: '10px', textTransform: 'uppercase', color: '#888888', display: 'block', marginBottom: 8 }}>
-        Cooling Location
-      </Text>
+    <div className="form-section">
+      <div className="form-label">Cooling Location</div>
       <Segmented
         value={value}
         onChange={handleChange}
-        size="small"
+        size="middle"
         block
         options={[
           {
             label: (
-              <div style={{ padding: '4px 0', textAlign: 'center' }}>
-                <div style={{ marginBottom: 2 }}>
-                  <ThunderboltOutlined />
-                </div>
-                <div style={{ fontSize: '11px', marginBottom: 2 }}>Freezer</div>
-                <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                  -20°C
-                </div>
-              </div>
+              <span>
+                <ThunderboltOutlined /> Freezer (-20°C)
+              </span>
             ),
             value: 'freezer',
           },
           {
             label: (
-              <div style={{ padding: '4px 0', textAlign: 'center' }}>
-                <div style={{ marginBottom: 2 }}>
-                  <InboxOutlined />
-                </div>
-                <div style={{ fontSize: '11px', marginBottom: 2 }}>Fridge</div>
-                <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                  6°C
-                </div>
-              </div>
+              <span>
+                <InboxOutlined /> Fridge (6°C)
+              </span>
             ),
             value: 'fridge',
           },
           {
             label: (
-              <div style={{ padding: '4px 0', textAlign: 'center' }}>
-                <div style={{ marginBottom: 2 }}>
-                  {loadingWeather ? (
-                    <Spin size="small" />
-                  ) : (
-                    <CloudOutlined />
-                  )}
-                </div>
-                <div style={{ fontSize: '11px', marginBottom: 2 }}>Outside</div>
-                <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                  {outsideTemp !== null ? `${outsideTemp}°C` : 'Auto'}
-                </div>
-              </div>
+              <span>
+                {loadingWeather ? <Spin size="small" /> : <CloudOutlined />} Outside{' '}
+                {outsideTemp !== null ? `(${outsideTemp}°C)` : ''}
+              </span>
             ),
             value: 'outside',
           },

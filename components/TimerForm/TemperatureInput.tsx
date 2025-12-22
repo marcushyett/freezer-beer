@@ -1,10 +1,7 @@
 'use client';
 
-import { Slider, Typography, Space } from 'antd';
-import { FireOutlined } from '@ant-design/icons';
+import { Slider } from 'antd';
 import { INPUT_RANGES } from '@/lib/constants';
-
-const { Text } = Typography;
 
 interface TemperatureInputProps {
   value: number;
@@ -20,11 +17,8 @@ export default function TemperatureInput({
   const { min, max, step } = INPUT_RANGES.temperature;
 
   return (
-    <div>
-      <Space align="center" style={{ marginBottom: 8 }}>
-        <FireOutlined style={{ color: '#4A9EFF' }} />
-        <Text strong>{label}</Text>
-      </Space>
+    <div className="form-section">
+      <div className="form-label">{label}</div>
       <Slider
         min={min}
         max={max}
@@ -41,9 +35,6 @@ export default function TemperatureInput({
           formatter: (val) => `${val}°C`,
         }}
       />
-      <div style={{ textAlign: 'center', marginTop: 4 }}>
-        <Text type="secondary">{value}°C</Text>
-      </div>
     </div>
   );
 }
