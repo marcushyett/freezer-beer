@@ -24,7 +24,7 @@ export async function beerTimerWorkflow(
   console.log('[Workflow] Workflow completed for user:', userId);
 }
 
-async function sendBeerReadyNotification(userId: string, targetTemp: number) {
+export async function sendBeerReadyNotification(userId: string, targetTemp: number) {
   "use step"; // Enables automatic retries
 
   const now = Date.now();
