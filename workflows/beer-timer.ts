@@ -48,7 +48,7 @@ async function sendBeerReadyNotification(userId: string, targetTemp: number) {
   try {
     // Send push notification
     await webpush.sendNotification(
-      storedSub.subscription,
+      storedSub.subscription as any,
       JSON.stringify({
         title: 'Beer is Ready!',
         message: `Your beer has reached ${targetTemp}°C - perfect drinking temperature!`,
