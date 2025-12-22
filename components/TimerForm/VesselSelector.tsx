@@ -13,28 +13,27 @@ interface VesselSelectorProps {
 
 export default function VesselSelector({ value, onChange }: VesselSelectorProps) {
   return (
-    <div>
-      <Space align="center" style={{ marginBottom: 12 }}>
-        <BoxPlotOutlined style={{ color: '#4A9EFF' }} />
-        <Text strong>Vessel Type</Text>
-      </Space>
+    <div style={{ marginBottom: 16 }}>
+      <Text strong style={{ fontSize: '10px', textTransform: 'uppercase', color: '#888888', display: 'block', marginBottom: 8 }}>
+        Vessel Type
+      </Text>
       <Radio.Group
         value={value}
         onChange={(e) => onChange(e.target.value)}
         buttonStyle="solid"
-        size="large"
+        size="small"
         style={{ width: '100%', display: 'flex' }}
       >
-        <Radio.Button value="can" style={{ flex: 1, textAlign: 'center' }}>
-          <Space direction="vertical" size={4}>
-            <BoxPlotOutlined />
-            <span>Aluminum Can</span>
+        <Radio.Button value="can" style={{ flex: 1, textAlign: 'center', padding: '8px 0' }}>
+          <Space direction="vertical" size={2}>
+            <BoxPlotOutlined style={{ fontSize: '14px' }} />
+            <span style={{ fontSize: '11px' }}>Aluminum Can</span>
           </Space>
         </Radio.Button>
-        <Radio.Button value="glass-bottle" style={{ flex: 1, textAlign: 'center' }}>
-          <Space direction="vertical" size={4}>
-            <ExperimentOutlined />
-            <span>Glass Bottle</span>
+        <Radio.Button value="glass-bottle" style={{ flex: 1, textAlign: 'center', padding: '8px 0' }}>
+          <Space direction="vertical" size={2}>
+            <ExperimentOutlined style={{ fontSize: '14px' }} />
+            <span style={{ fontSize: '11px' }}>Glass Bottle</span>
           </Space>
         </Radio.Button>
       </Radio.Group>

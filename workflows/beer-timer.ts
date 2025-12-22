@@ -1,5 +1,3 @@
-"use workflow";
-
 import { sleep } from "workflow";
 import { redis } from "@/lib/redis";
 import { webpush } from "@/lib/web-push-server";
@@ -10,6 +8,8 @@ export async function beerTimerWorkflow(
   delayMs: number,
   targetTemp: number
 ) {
+  "use workflow";
+
   // Sleep until timer expires (no resources consumed)
   await sleep(`${delayMs}ms`);
 

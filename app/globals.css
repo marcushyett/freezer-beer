@@ -171,6 +171,10 @@ a {
   color: #000000 !important;
 }
 
+.ant-radio-button-wrapper-checked span {
+  color: #000000 !important;
+}
+
 .ant-radio-button-wrapper:hover {
   color: #ffffff !important;
 }
