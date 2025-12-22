@@ -80,32 +80,23 @@ export default function LocationSelector({
       <Segmented
         value={value}
         onChange={handleChange}
-        size="middle"
+        size="large"
         block
         options={[
           {
-            label: (
-              <span>
-                <ThunderboltOutlined /> Freezer (-20°C)
-              </span>
-            ),
+            label: 'Freezer -20°C',
             value: 'freezer',
           },
           {
-            label: (
-              <span>
-                <InboxOutlined /> Fridge (6°C)
-              </span>
-            ),
+            label: 'Fridge 6°C',
             value: 'fridge',
           },
           {
-            label: (
-              <span>
-                {loadingWeather ? <Spin size="small" /> : <CloudOutlined />} Outside{' '}
-                {outsideTemp !== null ? `(${outsideTemp}°C)` : ''}
-              </span>
-            ),
+            label: loadingWeather
+              ? 'Outside...'
+              : outsideTemp !== null
+                ? `Outside ${outsideTemp}°C`
+                : 'Outside',
             value: 'outside',
           },
         ]}

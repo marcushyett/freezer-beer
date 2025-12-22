@@ -178,8 +178,8 @@ export function validateCoolingParams(params: CoolingParams): string | null {
     return 'Beer is already at or below the cooling environment temperature';
   }
 
-  if (targetTemp >= currentTemp) {
-    return 'Target temperature must be below current temperature';
+  if (currentTemp <= targetTemp) {
+    return 'Your beer is already cold enough! No cooling needed.';
   }
 
   if (targetTemp < ambientTemp) {

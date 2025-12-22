@@ -54,7 +54,12 @@ export default function RootLayout({
                 defaultBorderColor: '#333333',
                 defaultColor: '#ffffff',
                 primaryColor: '#000000',
-                controlHeight: 40,
+                controlHeight: 44,
+                fontSize: 13,
+              },
+              Segmented: {
+                itemSelectedBg: '#ffffff',
+                itemSelectedColor: '#000000',
               },
               Progress: {
                 defaultColor: '#ffffff',
