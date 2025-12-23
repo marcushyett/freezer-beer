@@ -10,6 +10,7 @@ import {
 import TimerForm from '@/components/TimerForm';
 import TimerDisplay from '@/components/TimerDisplay';
 import NotificationSetup from '@/components/NotificationSetup';
+import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 
 export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
@@ -105,6 +106,9 @@ export default function Home() {
       ) : (
         <TimerForm userId={userId} onTimerCreated={handleTimerCreated} />
       )}
+
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
     </main>
   );
 }

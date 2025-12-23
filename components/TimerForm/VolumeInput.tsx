@@ -1,7 +1,10 @@
 'use client';
 
-import { Slider } from 'antd';
+import { Slider, Typography } from 'antd';
 import { INPUT_RANGES } from '@/lib/constants';
+import InfoTooltip from '../InfoTooltip';
+
+const { Text } = Typography;
 
 interface VolumeInputProps {
   value: number;
@@ -13,7 +16,19 @@ export default function VolumeInput({ value, onChange }: VolumeInputProps) {
 
   return (
     <div className="form-section">
-      <div className="form-label">Volume</div>
+      <div className="form-label">
+        <span>Volume</span>
+        <InfoTooltip
+          title="Surface Area to Volume Ratio"
+          content="Smaller containers cool faster due to a higher surface area to volume ratio. The cooling rate scales with V^(-1/3), where V is volume. This is why a 200ml can cools significantly faster than a 750ml bottle."
+          links={[
+            {
+              text: 'Role of volume-specific surface area in heat transfer',
+              url: 'https://www.sciencedirect.com/science/article/pii/S0017931024003661'
+            }
+          ]}
+        />
+      </div>
       <Slider
         min={min}
         max={max}

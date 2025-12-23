@@ -1,19 +1,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Radio, Spin, message } from 'antd';
+import { Radio, Spin, message, Typography } from 'antd';
 import { CoolingLocation } from '@/types';
+
+const { Text } = Typography;
 
 interface LocationSelectorProps {
   value: CoolingLocation;
   onChange: (value: CoolingLocation) => void;
   onOutsideTempChange: (temp: number | null) => void;
+  disabled?: boolean;
+  disabledMessage?: string;
 }
 
 export default function LocationSelector({
   value,
   onChange,
   onOutsideTempChange,
+  disabled = false,
+  disabledMessage,
 }: LocationSelectorProps) {
   const [loadingWeather, setLoadingWeather] = useState(false);
   const [outsideTemp, setOutsideTemp] = useState<number | null>(null);
@@ -70,11 +76,19 @@ export default function LocationSelector({
   return (
     <div className="form-section">
       <div className="form-label">Cooling Location</div>
+      {disabled && disabledMessage && (
+        <div style={{ marginBottom: 8, padding: '6px 8px', backgroundColor: '#1a1a1a', borderRadius: 4 }}>
+          <Text style={{ fontSize: 11, color: '#999' }}>
+            {disabledMessage}
+          </Text>
+        </div>
+      )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Radio.Group
           value={value}
           onChange={(e) => onChange(e.target.value as CoolingLocation)}
           buttonStyle="solid"
+          disabled={disabled}
           style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}
         >
           <Radio.Button value="freezer" style={{ height: 'auto', padding: '8px' }}>

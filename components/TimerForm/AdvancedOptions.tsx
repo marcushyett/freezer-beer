@@ -3,6 +3,7 @@
 import { Collapse, Switch, Space, Typography, InputNumber } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { AdvancedOptions } from '@/types';
+import { ADVANCED_COOLING_METHODS } from '@/lib/constants';
 
 const { Text } = Typography;
 
@@ -64,10 +65,10 @@ export default function AdvancedOptionsComponent({
                 }}
               >
                 <div>
-                  <Text>In Snow</Text>
+                  <Text>{ADVANCED_COOLING_METHODS.inSnow.name}</Text>
                   <br />
                   <Text type="secondary" style={{ fontSize: 12 }}>
-                    1.3x faster cooling
+                    {ADVANCED_COOLING_METHODS.inSnow.multiplier}x faster • {ADVANCED_COOLING_METHODS.inSnow.ambientTemp}°C
                   </Text>
                 </div>
                 <Switch
@@ -84,10 +85,10 @@ export default function AdvancedOptionsComponent({
                 }}
               >
                 <div>
-                  <Text>In Cold Water</Text>
+                  <Text>{ADVANCED_COOLING_METHODS.inWater.name}</Text>
                   <br />
                   <Text type="secondary" style={{ fontSize: 12 }}>
-                    2.5x faster cooling
+                    {ADVANCED_COOLING_METHODS.inWater.multiplier}x faster • {ADVANCED_COOLING_METHODS.inWater.ambientTemp}°C
                   </Text>
                 </div>
                 <Switch
@@ -104,10 +105,10 @@ export default function AdvancedOptionsComponent({
                 }}
               >
                 <div>
-                  <Text>In Ice Water</Text>
+                  <Text>{ADVANCED_COOLING_METHODS.inIceWater.name}</Text>
                   <br />
                   <Text type="secondary" style={{ fontSize: 12 }}>
-                    4x faster cooling
+                    {ADVANCED_COOLING_METHODS.inIceWater.multiplier}x faster • {ADVANCED_COOLING_METHODS.inIceWater.ambientTemp}°C
                   </Text>
                 </div>
                 <Switch
@@ -124,10 +125,10 @@ export default function AdvancedOptionsComponent({
                 }}
               >
                 <div>
-                  <Text>In Salt Ice Water</Text>
+                  <Text>{ADVANCED_COOLING_METHODS.inSaltIceWater.name}</Text>
                   <br />
                   <Text type="secondary" style={{ fontSize: 12 }}>
-                    6x faster cooling
+                    {ADVANCED_COOLING_METHODS.inSaltIceWater.multiplier}x faster • {ADVANCED_COOLING_METHODS.inSaltIceWater.ambientTemp}°C
                   </Text>
                 </div>
                 <Switch
@@ -144,11 +145,19 @@ export default function AdvancedOptionsComponent({
                 }}
               >
                 <div>
-                  <Text>CO2 Fire Extinguisher</Text>
+                  <Text>{ADVANCED_COOLING_METHODS.withCO2Extinguisher.name}</Text>
                   <br />
                   <Text type="secondary" style={{ fontSize: 12 }}>
-                    12x faster (DANGER!)
+                    {ADVANCED_COOLING_METHODS.withCO2Extinguisher.multiplier}x faster • {ADVANCED_COOLING_METHODS.withCO2Extinguisher.ambientTemp}°C
                   </Text>
+                  {ADVANCED_COOLING_METHODS.withCO2Extinguisher.warning && (
+                    <>
+                      <br />
+                      <Text type="warning" style={{ fontSize: 11 }}>
+                        {ADVANCED_COOLING_METHODS.withCO2Extinguisher.warning}
+                      </Text>
+                    </>
+                  )}
                 </div>
                 <Switch
                   checked={value.withCO2Extinguisher}

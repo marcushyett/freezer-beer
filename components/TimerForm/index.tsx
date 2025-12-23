@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button, Card, Space, Typography, message } from 'antd';
 import { ThunderboltOutlined } from '@ant-design/icons';
 import { VesselMaterial, CoolingLocation, AdvancedOptions, CoolingParams } from '@/types';
-import { DEFAULT_VALUES, AMBIENT_TEMPS } from '@/lib/constants';
+import { DEFAULT_VALUES, AMBIENT_TEMPS, ADVANCED_COOLING_METHODS } from '@/lib/constants';
 import { calculateCoolingTime, validateCoolingParams, projectTemperatureWithForecast, ForecastPoint, ProjectionPoint } from '@/lib/cooling-calculator';
 import TemperatureInput from './TemperatureInput';
 import VesselSelector from './VesselSelector';
@@ -13,6 +13,7 @@ import LocationSelector from './LocationSelector';
 import TargetTempPresets from './TargetTempPresets';
 import AdvancedOptionsComponent from './AdvancedOptions';
 import OutsideCoolingGraph from '../OutsideCoolingGraph';
+import InfoTooltip from '../InfoTooltip';
 
 const { Title, Text } = Typography;
 
@@ -41,6 +42,19 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
   const [forecastData, setForecastData] = useState<ForecastPoint[]>([]);
   const [projectionData, setProjectionData] = useState<ProjectionPoint[]>([]);
   const [loadingForecast, setLoadingForecast] = useState(false);
+
+  // Check if an advanced cooling method is active
+  const getActiveAdvancedMethod = (): string | null => {
+    if (advancedOptions.withCO2Extinguisher) return 'withCO2Extinguisher';
+    if (advancedOptions.inSaltIceWater) return 'inSaltIceWater';
+    if (advancedOptions.inIceWater) return 'inIceWater';
+    if (advancedOptions.inWater) return 'inWater';
+    if (advancedOptions.inSnow) return 'inSnow';
+    return null;
+  };
+
+  const activeAdvancedMethod = getActiveAdvancedMethod();
+  const isLocationDisabled = activeAdvancedMethod !== null;
 
   // Get ambient temperature based on location
   const getAmbientTemp = (): number => {
@@ -215,7 +229,35 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
   return (
     <Card>
       <Space direction="vertical" style={{ width: '100%' }}>
-        <Title level={4}>BEER COOLING TIMER</Title>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Title level={4} style={{ margin: 0 }}>BEER COOLING TIMER</Title>
+          <InfoTooltip
+            title="Newton's Law of Cooling"
+            content={
+              <div>
+                <div style={{ marginBottom: 4, fontSize: 12, color: '#ddd' }}>
+                  This calculator uses Newton's Law of Cooling:
+                </div>
+                <div style={{ fontFamily: 'monospace', fontSize: 11, marginBottom: 8, color: '#aaa' }}>
+                  t = -ln((T_target - T_ambient) / (T_initial - T_ambient)) / k
+                </div>
+                <div style={{ fontSize: 12, color: '#ddd' }}>
+                  Where k is the heat transfer coefficient that depends on material, volume, and cooling medium.
+                </div>
+              </div>
+            }
+            links={[
+              {
+                text: 'Newton\'s Law of Cooling (Wikipedia)',
+                url: 'https://en.wikipedia.org/wiki/Newton\'s_law_of_cooling'
+              },
+              {
+                text: 'Visit /science page for detailed methodology',
+                url: '/science'
+              }
+            ]}
+          />
+        </div>
 
         <TemperatureInput
           value={currentTemp}
@@ -231,6 +273,12 @@ export default function TimerForm({ userId, onTimerCreated }: TimerFormProps) {
           value={coolingLocation}
           onChange={setCoolingLocation}
           onOutsideTempChange={setOutsideTemp}
+          disabled={isLocationDisabled}
+          disabledMessage={
+            activeAdvancedMethod
+              ? `Using ${ADVANCED_COOLING_METHODS[activeAdvancedMethod as keyof typeof ADVANCED_COOLING_METHODS].name} (${ADVANCED_COOLING_METHODS[activeAdvancedMethod as keyof typeof ADVANCED_COOLING_METHODS].ambientTemp}°C) - location selection disabled`
+              : undefined
+          }
         />
 
         <TargetTempPresets value={targetTemp} onChange={setTargetTemp} />
