@@ -99,6 +99,9 @@ export default function PWAInstallPrompt() {
       zIndex: 1000,
       maxWidth: 500,
       margin: '0 auto',
+      padding: 8,
+      background: '#000000',
+      borderRadius: 12,
     }}>
       <Card
         style={{
