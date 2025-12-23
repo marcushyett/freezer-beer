@@ -2,142 +2,72 @@
   <!-- Background -->
   <rect width="512" height="512" fill="#000000"/>
 
-  <!-- Gradient Definitions -->
-  <defs>
-    <!-- Beer gradient (amber to golden) -->
-    <linearGradient id="beerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFB84D;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF9500;stop-opacity:1" />
-    </linearGradient>
-
-    <!-- Foam gradient (white to cream) -->
-    <linearGradient id="foamGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFF8E7;stop-opacity:1" />
-    </linearGradient>
-
-    <!-- Ice/frost gradient (blue to cyan) -->
-    <linearGradient id="iceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4A9EFF;stop-opacity:0.3" />
-      <stop offset="100%" style="stop-color:#00D4FF;stop-opacity:0.2" />
-    </linearGradient>
-
-    <!-- Glass shine gradient -->
-    <linearGradient id="glassShine" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.2" />
-      <stop offset="50%" style="stop-color:#FFFFFF;stop-opacity:0.4" />
-      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0.1" />
-    </linearGradient>
-  </defs>
-
-  <!-- Ice crystals background effect -->
-  <circle cx="140" cy="90" r="8" fill="#4A9EFF" opacity="0.3"/>
-  <circle cx="380" cy="120" r="6" fill="#00D4FF" opacity="0.25"/>
-  <circle cx="100" cy="400" r="10" fill="#4A9EFF" opacity="0.2"/>
-  <circle cx="420" cy="350" r="7" fill="#00D4FF" opacity="0.3"/>
-  <circle cx="90" cy="250" r="5" fill="#4A9EFF" opacity="0.25"/>
-  <circle cx="430" cy="200" r="9" fill="#00D4FF" opacity="0.2"/>
-
-  <!-- Main beer glass body (sleek pint shape) -->
-  <path d="M 200 130 L 185 410 Q 185 425 200 425 L 312 425 Q 327 425 327 410 L 312 130 Z"
-        fill="url(#beerGradient)"
-        opacity="0.9"/>
-
-  <!-- Glass outline/rim -->
-  <path d="M 200 130 L 185 410 Q 185 425 200 425 L 312 425 Q 327 425 327 410 L 312 130 Z"
+  <!-- Beer glass body (straight-sided pint glass) -->
+  <rect x="200" y="160" width="112" height="280" rx="8" ry="8"
         fill="none"
-        stroke="#FFFFFF"
-        stroke-width="8"
-        stroke-linejoin="round"
-        opacity="0.8"/>
+        stroke="#ffffff"
+        stroke-width="10"
+        stroke-linejoin="round"/>
 
-  <!-- Beer level (darker amber) -->
-  <path d="M 193 270 L 188 405 Q 188 420 203 420 L 309 420 Q 319 420 319 405 L 314 270 Z"
-        fill="#E68A00"
-        opacity="0.6"/>
-
-  <!-- Glass shine effect -->
-  <ellipse cx="220" cy="220" rx="25" ry="120"
-           fill="url(#glassShine)"
-           opacity="0.5"/>
-
-  <!-- Condensation droplets on glass -->
-  <ellipse cx="210" cy="280" rx="4" ry="6" fill="#FFFFFF" opacity="0.4"/>
-  <ellipse cx="305" cy="320" rx="3" ry="5" fill="#FFFFFF" opacity="0.35"/>
-  <ellipse cx="225" cy="360" rx="3" ry="4" fill="#FFFFFF" opacity="0.4"/>
-  <ellipse cx="290" cy="240" rx="4" ry="6" fill="#FFFFFF" opacity="0.3"/>
-
-  <!-- Ice frost overlay -->
-  <path d="M 200 130 L 185 410 Q 185 425 200 425 L 312 425 Q 327 425 327 410 L 312 130 Z"
-        fill="url(#iceGradient)"/>
-
-  <!-- Beer foam/head (fluffy realistic) -->
-  <!-- Main foam mass -->
-  <ellipse cx="256" cy="125" rx="65" ry="30"
-           fill="url(#foamGradient)"/>
-
-  <!-- Foam bubbles (layered) -->
-  <circle cx="235" cy="115" r="18" fill="url(#foamGradient)" opacity="0.9"/>
-  <circle cx="280" cy="112" r="20" fill="url(#foamGradient)" opacity="0.85"/>
-  <circle cx="256" cy="105" r="22" fill="url(#foamGradient)" opacity="0.95"/>
-  <circle cx="215" cy="125" r="15" fill="url(#foamGradient)" opacity="0.8"/>
-  <circle cx="295" cy="122" r="16" fill="url(#foamGradient)" opacity="0.8"/>
-
-  <!-- Smaller foam bubbles on top -->
-  <circle cx="245" cy="98" r="10" fill="#FFFFFF" opacity="0.9"/>
-  <circle cx="268" cy="95" r="11" fill="#FFFFFF" opacity="0.85"/>
-  <circle cx="230" cy="105" r="8" fill="#FFFFFF" opacity="0.8"/>
-  <circle cx="283" cy="102" r="9" fill="#FFFFFF" opacity="0.8"/>
-
-  <!-- Tiny air bubbles in foam -->
-  <circle cx="240" cy="110" r="3" fill="#000000" opacity="0.2"/>
-  <circle cx="260" cy="108" r="4" fill="#000000" opacity="0.15"/>
-  <circle cx="250" cy="115" r="3" fill="#000000" opacity="0.2"/>
-  <circle cx="270" cy="113" r="3" fill="#000000" opacity="0.15"/>
-
-  <!-- Glass handle (curved, modern) -->
-  <path d="M 327 180 Q 368 185 368 225 Q 368 265 327 270"
+  <!-- Glass bottom curve -->
+  <path d="M 200 440 Q 256 450 312 440"
         fill="none"
-        stroke="#FFFFFF"
-        stroke-width="12"
-        stroke-linecap="round"
-        opacity="0.8"/>
+        stroke="#ffffff"
+        stroke-width="10"
+        stroke-linecap="round"/>
 
-  <!-- Handle inner detail -->
-  <path d="M 327 190 Q 358 193 358 225 Q 358 257 327 260"
-        fill="none"
-        stroke="#FFB84D"
+  <!-- Beer level inside glass -->
+  <line x1="210" y1="280" x2="302" y2="280"
+        stroke="#ffffff"
         stroke-width="3"
-        stroke-linecap="round"
         opacity="0.4"/>
 
+  <!-- Glass handle (curved) -->
+  <path d="M 312 220 Q 350 220 350 260 Q 350 300 312 300"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="10"
+        stroke-linecap="round"/>
+
+  <!-- Beer foam/head (fluffy, realistic bubbles) -->
+  <!-- Base foam layer -->
+  <ellipse cx="256" cy="155" rx="60" ry="22"
+           fill="#ffffff"/>
+
+  <!-- Foam bubbles (layered for depth) -->
+  <circle cx="230" cy="145" r="16" fill="#ffffff"/>
+  <circle cx="256" cy="138" r="18" fill="#ffffff"/>
+  <circle cx="282" cy="145" r="16" fill="#ffffff"/>
+
+  <!-- Top foam bubbles -->
+  <circle cx="220" cy="152" r="12" fill="#ffffff"/>
+  <circle cx="245" cy="132" r="14" fill="#ffffff"/>
+  <circle cx="268" cy="130" r="13" fill="#ffffff"/>
+  <circle cx="292" cy="150" r="11" fill="#ffffff"/>
+
+  <!-- Small detail bubbles -->
+  <circle cx="238" cy="140" r="8" fill="#ffffff"/>
+  <circle cx="274" cy="138" r="9" fill="#ffffff"/>
+
+  <!-- Tiny air bubbles in foam for texture -->
+  <circle cx="240" cy="148" r="3" fill="#000000" opacity="0.3"/>
+  <circle cx="256" cy="145" r="4" fill="#000000" opacity="0.3"/>
+  <circle cx="272" cy="147" r="3" fill="#000000" opacity="0.3"/>
+  <circle cx="250" cy="135" r="3" fill="#000000" opacity="0.25"/>
+  <circle cx="264" cy="136" r="3" fill="#000000" opacity="0.25"/>
+
   <!-- Rising bubbles in beer -->
-  <circle cx="220" cy="380" r="3" fill="#FFFFFF" opacity="0.5"/>
-  <circle cx="240" cy="350" r="4" fill="#FFFFFF" opacity="0.4"/>
-  <circle cx="270" cy="370" r="3" fill="#FFFFFF" opacity="0.5"/>
-  <circle cx="290" cy="340" r="3" fill="#FFFFFF" opacity="0.45"/>
-  <circle cx="250" cy="320" r="4" fill="#FFFFFF" opacity="0.4"/>
-  <circle cx="280" cy="300" r="3" fill="#FFFFFF" opacity="0.35"/>
+  <circle cx="230" cy="380" r="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="245" cy="350" r="5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="270" cy="370" r="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="285" cy="340" r="4" fill="#ffffff" opacity="0.45"/>
+  <circle cx="255" cy="320" r="5" fill="#ffffff" opacity="0.4"/>
+  <circle cx="240" cy="300" r="4" fill="#ffffff" opacity="0.35"/>
+  <circle cx="275" cy="310" r="4" fill="#ffffff" opacity="0.4"/>
 
-  <!-- Snowflake/frost accents (small, subtle) -->
-  <!-- Top left -->
-  <g transform="translate(120, 100)" opacity="0.4">
-    <line x1="0" y1="-12" x2="0" y2="12" stroke="#4A9EFF" stroke-width="2"/>
-    <line x1="-10" y1="-6" x2="10" y2="6" stroke="#4A9EFF" stroke-width="2"/>
-    <line x1="-10" y1="6" x2="10" y2="-6" stroke="#4A9EFF" stroke-width="2"/>
-  </g>
-
-  <!-- Top right -->
-  <g transform="translate(390, 140)" opacity="0.35">
-    <line x1="0" y1="-10" x2="0" y2="10" stroke="#00D4FF" stroke-width="2"/>
-    <line x1="-8" y1="-5" x2="8" y2="5" stroke="#00D4FF" stroke-width="2"/>
-    <line x1="-8" y1="5" x2="8" y2="-5" stroke="#00D4FF" stroke-width="2"/>
-  </g>
-
-  <!-- Bottom left -->
-  <g transform="translate(110, 420)" opacity="0.3">
-    <line x1="0" y1="-14" x2="0" y2="14" stroke="#4A9EFF" stroke-width="2"/>
-    <line x1="-11" y1="-7" x2="11" y2="7" stroke="#4A9EFF" stroke-width="2"/>
-    <line x1="-11" y1="7" x2="11" y2="-7" stroke="#4A9EFF" stroke-width="2"/>
-  </g>
+  <!-- Condensation droplets on glass -->
+  <ellipse cx="215" cy="290" rx="3" ry="5" fill="#ffffff" opacity="0.4"/>
+  <ellipse cx="295" cy="320" rx="3" ry="6" fill="#ffffff" opacity="0.35"/>
+  <ellipse cx="225" cy="360" rx="3" ry="5" fill="#ffffff" opacity="0.4"/>
+  <ellipse cx="290" cy="250" rx="3" ry="5" fill="#ffffff" opacity="0.3"/>
 </svg>
