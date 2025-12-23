@@ -2,20 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { Spin } from 'antd';
-import {
-  isPushNotificationSupported,
-  getNotificationPermission,
-  getCurrentPushSubscription,
-} from '@/lib/web-push-client';
 import TimerForm from '@/components/TimerForm';
 import TimerDisplay from '@/components/TimerDisplay';
-import NotificationSetup from '@/components/NotificationSetup';
 import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 
 export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
-  const [pushSubscription, setPushSubscription] = useState<PushSubscription | null>(null);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [activeTimer, setActiveTimer] = useState<{
     expiryTime: number;
     targetTemp: number;
@@ -35,18 +27,6 @@ export default function Home() {
     }
     setUserId(storedUserId);
 
-    // Check notification support and permission
-    if (isPushNotificationSupported()) {
-      const permission = getNotificationPermission();
-      if (permission === 'granted') {
-        const subscription = await getCurrentPushSubscription();
-        if (subscription) {
-          setPushSubscription(subscription);
-          setNotificationsEnabled(true);
-        }
-      }
-    }
-
     // Check for active timer
     try {
       const response = await fetch(`/api/timer/status?userId=${storedUserId}`);
@@ -63,11 +43,6 @@ export default function Home() {
     }
 
     setLoading(false);
-  };
-
-  const handleNotificationsEnabled = (subscription: PushSubscription) => {
-    setPushSubscription(subscription);
-    setNotificationsEnabled(true);
   };
 
   const handleTimerCreated = (expiryTime: number, coolingMinutes: number) => {
@@ -91,12 +66,7 @@ export default function Home() {
 
   return (
     <main className="app-container">
-      {!notificationsEnabled ? (
-        <NotificationSetup
-          userId={userId}
-          onNotificationsEnabled={handleNotificationsEnabled}
-        />
-      ) : activeTimer ? (
+      {activeTimer ? (
         <TimerDisplay
           expiryTime={activeTimer.expiryTime}
           targetTemp={activeTimer.targetTemp}
@@ -107,7 +77,7 @@ export default function Home() {
         <TimerForm userId={userId} onTimerCreated={handleTimerCreated} />
       )}
 
-      {/* PWA Install Prompt */}
+      {/* PWA Install Prompt - subtle nudge, doesn't block usage */}
       <PWAInstallPrompt />
     </main>
   );

@@ -73,7 +73,7 @@ export default function SciencePage() {
               textAlign: 'center',
               marginBottom: 16
             }}>
-              <div style={{ fontSize: 16, marginBottom: 8 }}>
+              <div style={{ fontSize: 16, marginBottom: 8, color: '#000' }}>
                 T(t) = T<sub>ambient</sub> + (T<sub>initial</sub> - T<sub>ambient</sub>) × e<sup>-kt</sup>
               </div>
             </div>
@@ -88,7 +88,7 @@ export default function SciencePage() {
               textAlign: 'center',
               marginBottom: 16
             }}>
-              <div style={{ fontSize: 16 }}>
+              <div style={{ fontSize: 16, color: '#000' }}>
                 t = -ln((T<sub>target</sub> - T<sub>ambient</sub>) / (T<sub>initial</sub> - T<sub>ambient</sub>)) / k
               </div>
             </div>
@@ -138,7 +138,8 @@ export default function SciencePage() {
               borderRadius: 8,
               fontFamily: 'monospace',
               textAlign: 'center',
-              marginBottom: 16
+              marginBottom: 16,
+              color: '#000'
             }}>
               SA/V ∝ V<sup>-1/3</sup>
             </div>
@@ -151,7 +152,8 @@ export default function SciencePage() {
               borderRadius: 8,
               fontFamily: 'monospace',
               textAlign: 'center',
-              marginBottom: 16
+              marginBottom: 16,
+              color: '#000'
             }}>
               k<sub>adjusted</sub> = k<sub>base</sub> × (330ml / V)<sup>0.33</sup>
             </div>
